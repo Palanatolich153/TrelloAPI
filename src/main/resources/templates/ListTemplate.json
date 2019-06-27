@@ -1,0 +1,8 @@
+{
+  "id":"5d138bcde2bc7e818357fe3e",
+  "name":"{{ faker.name().firstName() }} List",
+  "closed":false,
+  "idBoard":"5d132cead342b156efed967a",
+  "pos":0.5,
+  "limits":{}
+}
