@@ -46,7 +46,6 @@ public class Services extends BaseAbstract {
         Helper helper = new Helper();
         RequestService requestService = new RequestService();
 
-        String listId;
         String getListFullAdditionalUrl = getListsAdditionalURL + welcomeToTrelloBoardId + "/lists?fields=all&filter=open&key=" + key + "&token=" + token;
 
         JsonObject requestBody = helper.createRequestBody(Constants.archiveListTemplateFilePath);
@@ -55,14 +54,6 @@ public class Services extends BaseAbstract {
 
         List<String> values = helper.getSameValuesFromJson(responseBody);
 
-        for (int i = 0; i < values.size(); i++) {
-
-            listId = values.get(i);
-
-            Response response = requestService.Put("1/lists/" + listId, requestBody.toString(), origin);
-
-            System.out.println(response.getStatusCode());
-            System.out.println(response.getBody().asString());
-        }
+        values.parallelStream().forEach(value ->{requestService.Put("1/lists/" + value, requestBody.toString(), origin);});
     }
 }
