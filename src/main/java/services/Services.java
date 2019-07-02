@@ -1,63 +1,68 @@
 package services;
 
-import com.github.javafaker.Faker;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import com.jayway.restassured.response.Response;
 import config.Constants;
-import org.jtwig.JtwigModel;
-import org.jtwig.JtwigTemplate;
-import org.testng.Assert;
+import core.BaseAbstract;
+import helpers.Helper;
 import webServices.RequestService;
 
 import java.util.List;
 
-public class Services {
+public class Services extends BaseAbstract {
 
-    public JsonObject createRequestBody(String filePath) {
+    public JsonObject executePostRequestAndReturnRequestBody(String additionalURL, JsonObject requestBody) {
 
-        Gson gson = new GsonBuilder().create();
+        Helper helper = new Helper();
+        RequestService requestService = new RequestService();
 
-        JtwigTemplate template = JtwigTemplate.classpathTemplate(filePath);
-        JtwigModel model = JtwigModel.newModel().with("faker", new Faker());
+        Response response = requestService.Post(additionalURL, requestBody.toString(), origin);
 
-        return gson.fromJson(template.render(model), JsonObject.class);
+        return helper.createResponseBodyJsonObject(response);
     }
 
-    public JsonObject createResponseBody(Response response) {
+    public JsonArray executeGetRequestAndReturnRequestBodyAsJsonArray(String additionalURL) {
 
-        Gson gson = new GsonBuilder().create();
+        Helper helper = new Helper();
+        RequestService requestService = new RequestService();
 
-        JsonObject jsonObject = null;
+        Response response = requestService.Get(additionalURL);
 
-        try {
-            jsonObject = gson.fromJson(response.getBody().asString(), JsonObject.class);
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-            Assert.fail("JsonSyntaxException happened in " + new Object() {
-            }.getClass().getEnclosingMethod().getName());
-        }
-        return jsonObject;
+        return helper.createResponseBodyJsonArray(response);
     }
 
-    public void archiveLists(List<String> lists) {
+    public JsonObject createList(String additionalURL) {
 
+        Helper helper = new Helper();
+
+        //Create a List
+        JsonObject listRequestBody = helper.createRequestBody(Constants.listTemplateFilePath);
+        return executePostRequestAndReturnRequestBody(additionalURL, listRequestBody);
+    }
+
+    public void archiveLists() {
+
+        Helper helper = new Helper();
         RequestService requestService = new RequestService();
 
         String listId;
-        String origin = "https://developers.trello.com";
+        String getListFullAdditionalUrl = getListsAdditionalURL + welcomeToTrelloBoardId + "/lists?fields=all&filter=open&key=" + key + "&token=" + token;
 
-        int listsSize = lists.size();
+        JsonObject requestBody = helper.createRequestBody(Constants.archiveListTemplateFilePath);
 
-        JsonObject requestBody = createRequestBody(Constants.archiveListTemplateFilePath);
+        JsonArray responseBody = executeGetRequestAndReturnRequestBodyAsJsonArray(getListFullAdditionalUrl);
 
-        for (int i = 0; i < lists.size(); i++) {
+        List<String> values = helper.getSameValuesFromJson(responseBody);
 
-            listId = lists.get(i);
+        for (int i = 0; i < values.size(); i++) {
 
-            requestService.Put("1/lists/" + listId.substring(1, (listsSize - 1)), requestBody.toString(), origin);
+            listId = values.get(i);
+
+            Response response = requestService.Put("1/lists/" + listId, requestBody.toString(), origin);
+
+            System.out.println(response.getStatusCode());
+            System.out.println(response.getBody().asString());
         }
     }
 }
