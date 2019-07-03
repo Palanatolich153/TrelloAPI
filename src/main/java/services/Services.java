@@ -22,7 +22,7 @@ public class Services extends BaseAbstract {
         return helper.createResponseBodyJsonObject(response);
     }
 
-    public JsonArray executeGetRequestAndReturnRequestBodyAsJsonArray(String additionalURL) {
+    private JsonArray executeGetRequestAndReturnRequestBodyAsJsonArray(String additionalURL) {
 
         Helper helper = new Helper();
         RequestService requestService = new RequestService();
@@ -46,14 +46,12 @@ public class Services extends BaseAbstract {
         Helper helper = new Helper();
         RequestService requestService = new RequestService();
 
-        String getListFullAdditionalUrl = getListsAdditionalURL + welcomeToTrelloBoardId + "/lists?fields=all&filter=open&key=" + key + "&token=" + token;
-
         JsonObject requestBody = helper.createRequestBody(Constants.archiveListTemplateFilePath);
 
-        JsonArray responseBody = executeGetRequestAndReturnRequestBodyAsJsonArray(getListFullAdditionalUrl);
+        JsonArray responseBody = executeGetRequestAndReturnRequestBodyAsJsonArray(getOpenListWelcomeToTrelloBoardFullAdditionalUrl);
 
-        List<String> values = helper.getSameValuesFromJson(responseBody);
+        List<String> values = helper.getSameValuesFromJson(responseBody, "id");
 
-        values.parallelStream().forEach(value ->{requestService.Put("1/lists/" + value, requestBody.toString(), origin);});
+        values.parallelStream().forEach(value -> requestService.Put("1/lists/" + value, requestBody.toString(), origin));
     }
 }

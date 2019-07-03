@@ -7,8 +7,9 @@ import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 import org.testng.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Helper {
 
@@ -61,15 +62,11 @@ public class Helper {
         return elementToString.substring(1, elementToString.length() - 1);
     }
 
-    public List<String> getSameValuesFromJson(JsonArray body) {
+    public List<String> getSameValuesFromJson(JsonArray body, String key) {
 
         Gson gson = new Gson();
-        List<String> values = new ArrayList<>();
 
-        for (int i = 0; i < body.size(); i++) {
-            JsonObject jsonObject = gson.fromJson(body.get(i), JsonObject.class);
-            values.add(modifyString(jsonObject.get("id")));
-        }
-        return values;
+        return IntStream.range(0, body.size()).
+                mapToObj(index -> (modifyString(gson.fromJson(body.get(index), JsonObject.class).get(key)))).collect(Collectors.toList());
     }
 }
