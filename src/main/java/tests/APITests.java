@@ -75,10 +75,11 @@ public class APITests extends BaseClass {
 
         String cardName = faker.name().username();
 
-        JsonObject listResponseBody = services.createList(createListAdditionalURL);
+        JsonObject listRequestBody = services.createList(createListAdditionalURL);
 
-        String createCardFullAdditionalURL = createCardAdditionalURL + cardName + "&idList=" + helper.modifyString(listResponseBody.get("id"));
+        String createCardFullAdditionalURL = createCardAdditionalURL + cardName + "&idList=" + helper.modifyString(listRequestBody.get("id"));
 
+        //Create a Card
         JsonObject cardRequestBody = helper.createRequestBody(Constants.credentialTemplateFilePath);
         JsonObject cardResponseBody = services.executePostRequestAndReturnRequestBody(createCardFullAdditionalURL, cardRequestBody);
 

@@ -10,6 +10,9 @@ import webServices.RequestService;
 
 import java.util.List;
 
+/**
+ * Methods for implementing service logic
+ */
 public class Services extends BaseAbstract {
 
     public JsonObject executePostRequestAndReturnRequestBody(String additionalURL, JsonObject requestBody) {
@@ -36,8 +39,8 @@ public class Services extends BaseAbstract {
 
         Helper helper = new Helper();
 
-        //Create a List
         JsonObject listRequestBody = helper.createRequestBody(Constants.listTemplateFilePath);
+
         return executePostRequestAndReturnRequestBody(additionalURL, listRequestBody);
     }
 
