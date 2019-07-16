@@ -31,6 +31,7 @@ public class APITests extends BaseClass {
         //Verification that the List has been created successfully and has a correct name
         assertion.assertEquals(requestBody.get("name"), responseBody.get("name"));
         assertion.assertAll();
+
     }
 
     /**
