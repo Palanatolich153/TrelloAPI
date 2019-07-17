@@ -11,6 +11,10 @@ pipeline {
                 sh 'mvn test'
             }
         }
-
+        stage('Report') {
+            steps {
+                step([$class: 'Publisher', reportFilenamePattern: '**/testng-results.xml'])
+            }
+        }
     }
 }
