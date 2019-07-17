@@ -16,5 +16,12 @@ pipeline {
                 step([$class: 'Publisher', reportFilenamePattern: '**/testng-results.xml'])
             }
         }
+         stage('Email') {
+                env.ForEmailPlugin = env.WORKSPACE
+                emailext mimeType: 'text/xml',
+                body: '${FILE, path="**/testng-results.xml"}',
+                subject: currentBuild.currentResult + " : " + env.JOB_NAME,
+                to: '4Pavel.Chaika@gmail.com'
+         }
     }
 }
