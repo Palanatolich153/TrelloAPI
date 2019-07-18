@@ -12,8 +12,14 @@ For running test you can simply do following instructions:
 
 1. Run test using Docker container:
 
-1.a. Run a Docker file from a project
-1.b. Create a Jenkins pipeline project and use a Jenkins file from a project to build a job
+1.a. Run a Docker file from a project using following commands:
+
+sudo docker build --tag='tagname' pathToDockerFile
+sudo docker run -u root --rm -d -p 8080:8080 -v jenkins-data:/var/jenkins_home/custom -v /var/run/docker.sock:/var/run/docker.sock tagname
+get docker id using command: sudo docker ps
+get Jenkins password using command sudo docker logs containerId
+
+1.b. Create a Jenkins pipeline project and use a Jenkins file from a project to build a job and install TestNG Results Plugin
 
 2. Run tests locally:
 
