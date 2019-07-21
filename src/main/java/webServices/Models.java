@@ -5,6 +5,9 @@ import com.jayway.restassured.specification.ResponseSpecification;
 
 import static com.jayway.restassured.RestAssured.given;
 
+/**
+ * Methods for implementing request models
+ */
 public class Models {
 
     private String headerData;
@@ -21,40 +24,31 @@ public class Models {
 
     public ResponseSpecification setHeadersForPostRequest() {
 
-        ResponseSpecification responseSpecification =
-                given()
-                        .accept(ContentType.JSON)
-                        .contentType(ContentType.JSON)
-                        .header("Origin", headerData)
-                        .body(requestModel)
-                        .expect()
-                        .when();
-
-        return responseSpecification;
+        return given()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .header("Origin", headerData)
+                .body(requestModel)
+                .expect()
+                .when();
     }
 
     public ResponseSpecification setHeadersForGetRequest() {
 
-        ResponseSpecification responseSpecification =
-                given()
-                        .header("Accept", "application/json, text/plain, */*")
-                        .expect()
-                        .when();
-
-        return responseSpecification;
+        return given()
+                .header("Accept", "application/json, text/plain, */*")
+                .expect()
+                .when();
     }
 
     public ResponseSpecification setHeadersForPutRequest() {
 
-        ResponseSpecification responseSpecification =
-                given()
-                        .accept(ContentType.JSON)
-                        .contentType(ContentType.JSON)
-                        .header("Origin", headerData)
-                        .body(requestModel)
-                        .expect()
-                        .when();
-
-        return responseSpecification;
+        return given()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .header("Origin", headerData)
+                .body(requestModel)
+                .expect()
+                .when();
     }
 }

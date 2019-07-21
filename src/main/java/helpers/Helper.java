@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Methods for implementing auxiliary logic
+ */
 public class Helper {
 
     public JsonObject createRequestBody(String filePath) {

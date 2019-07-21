@@ -10,7 +10,8 @@ import java.net.URISyntaxException;
 public class RequestService {
 
     /**
-     * Creating the Post Request
+     * /**
+     * * Methods for implementing requests
      */
     public Response Post(String additionalURL, String requestModel, String headerData) {
 
