@@ -21,7 +21,7 @@ public class RequestService {
         ResponseSpecification responseSpecification = requestModels.setHeadersForPostRequest();
 
         try {
-            response = responseSpecification.post(new URI(URLs.generalPartOfURL + additionalURL)).thenReturn();
+            response = responseSpecification.post(new URI(URLs.url + additionalURL)).thenReturn();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -36,7 +36,7 @@ public class RequestService {
 
         Response response = null;
         try {
-            response = responseSpecification.get(new URI(URLs.generalPartOfURL + additionalURL)).thenReturn();
+            response = responseSpecification.get(new URI(URLs.url + additionalURL)).thenReturn();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class RequestService {
 
         Response response = null;
         try {
-            response = responseSpecification.put(new URI(URLs.generalPartOfURL + additionalURL)).thenReturn();
+            response = responseSpecification.put(new URI(URLs.url + additionalURL)).thenReturn();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }

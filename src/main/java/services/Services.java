@@ -12,33 +12,33 @@ import java.util.List;
 
 public class Services extends BaseAbstract {
 
-    public JsonObject executePostRequestAndReturnRequestBody(String additionalURL, JsonObject requestBody) {
+    public JsonObject executePostRequestAndReturnRequestBody(String endpoint, JsonObject requestBody) {
 
         Helper helper = new Helper();
         RequestService requestService = new RequestService();
 
-        Response response = requestService.Post(additionalURL, requestBody.toString(), origin);
+        Response response = requestService.Post(endpoint, requestBody.toString(), origin);
 
         return helper.createResponseBodyJsonObject(response);
     }
 
-    private JsonArray executeGetRequestAndReturnRequestBodyAsJsonArray(String additionalURL) {
+    private JsonArray executeGetRequestAndReturnRequestBodyAsJsonArray(String endpoint) {
 
         Helper helper = new Helper();
         RequestService requestService = new RequestService();
 
-        Response response = requestService.Get(additionalURL);
+        Response response = requestService.Get(endpoint);
 
         return helper.createResponseBodyJsonArray(response);
     }
 
-    public JsonObject createList(String additionalURL) {
+    public JsonObject createList(String endpoint) {
 
         Helper helper = new Helper();
 
         //Create a List
         JsonObject listRequestBody = helper.createRequestBody(Constants.listTemplateFilePath);
-        return executePostRequestAndReturnRequestBody(additionalURL, listRequestBody);
+        return executePostRequestAndReturnRequestBody(endpoint, listRequestBody);
     }
 
     public void archiveLists() {
@@ -48,7 +48,7 @@ public class Services extends BaseAbstract {
 
         JsonObject requestBody = helper.createRequestBody(Constants.archiveListTemplateFilePath);
 
-        JsonArray responseBody = executeGetRequestAndReturnRequestBodyAsJsonArray(getOpenListWelcomeToTrelloBoardFullAdditionalUrl);
+        JsonArray responseBody = executeGetRequestAndReturnRequestBodyAsJsonArray(getOpenListWelcomeToTrelloBoardFullEndpoint);
 
         List<String> values = helper.getSameValuesFromJson(responseBody, "id");
 
