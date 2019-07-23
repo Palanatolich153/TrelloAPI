@@ -1,10 +1,7 @@
 package helpers;
 
-import com.github.javafaker.Faker;
 import com.google.gson.*;
 import com.jayway.restassured.response.Response;
-import org.jtwig.JtwigModel;
-import org.jtwig.JtwigTemplate;
 import org.testng.Assert;
 
 import java.util.List;
@@ -15,16 +12,6 @@ import java.util.stream.IntStream;
  * Methods for implementing auxiliary logic
  */
 public class Helper {
-
-    public JsonObject createRequestBody(String filePath) {
-
-        Gson gson = new GsonBuilder().create();
-
-        JtwigTemplate template = JtwigTemplate.classpathTemplate(filePath);
-        JtwigModel model = JtwigModel.newModel().with("faker", new Faker());
-
-        return gson.fromJson(template.render(model), JsonObject.class);
-    }
 
     public JsonObject createResponseBodyJsonObject(Response response) {
 
